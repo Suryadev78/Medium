@@ -14,8 +14,6 @@ blogsRouter.put("/blog/:id", authMiddleware, async (c) => {
   const { id } = c.req.param();
 });
 
-blogsRouter.delete("/blog/:id", authMiddleware, async (c) => {
-  const { id } = c.req.param();
-});
+blogsRouter.delete("/blog/:id", authMiddleware, async (c) => {});
 
 export { blogsRouter };
