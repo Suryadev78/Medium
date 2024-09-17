@@ -3,7 +3,11 @@ import { authMiddleware } from "../auth/auth";
 
 const blogsRouter = new Hono();
 
-blogsRouter.get("/blogs/bulk", authMiddleware, async (c) => {});
+blogsRouter.get("/bulk", async (c) => {
+  return c.json({
+    message: "Blogs fetched successfully",
+  });
+});
 
 blogsRouter.post("/blog", authMiddleware, async (c) => {
   const { payload } = await c.req.json();
