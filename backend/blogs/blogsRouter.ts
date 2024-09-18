@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { authMiddleware } from "../auth/auth";
+import { authMiddleware } from "../middleware/auth";
 
 const blogsRouter = new Hono();
 
