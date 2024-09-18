@@ -32,16 +32,9 @@ app.use("*", async (c, next) => {
   c.set("prisma", prisma);
   await next();
 });
-// const userInfo = z.object({
-//     name: z.string(),
-//     email: z.string().email(),
-//     password: z.string(),
-//   });
-
-// type userInfovalidate = z.infer<typeof userInfo>;
 app.use("/api/v1/blogs/*", async (c, next) => {
   const token = await c.req.header("Authorization");
-  if (!token) {
+  if (token === null) {
     return c.json(
       {
         message: "token is required",
