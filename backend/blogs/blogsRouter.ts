@@ -56,7 +56,7 @@ blogsRouter.get("/search", async (c) => {
     });
   } catch (e) {
     console.error("Search error:", e);
-    return c.json({ message: "Failed to search blogs", error: e.message }, 500);
+    return c.json({ message: "Failed to search blogs", e }, 500);
   }
 });
 
