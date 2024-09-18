@@ -118,7 +118,11 @@ userRouter.post("/login", async (c) => {
       return c.json(
         {
           message: "User logged in successfully",
-          user: userExists,
+          user: {
+            id: userExists.id,
+            name: userExists.name,
+            email: userExists.email,
+          },
           token,
         },
         200

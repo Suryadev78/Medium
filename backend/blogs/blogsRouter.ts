@@ -1,11 +1,19 @@
 import { Hono } from "hono";
+import { JWTPayload } from "hono/utils/jwt/types";
 // import { authMiddleware } from "../middleware/auth";
 
-const blogsRouter = new Hono();
+const blogsRouter = new Hono<{
+  Variables: {
+    user: JWTPayload;
+  };
+}>();
 
 blogsRouter.get("/bulk", async (c) => {
+  const { user } = c.get("user");
+  console.log(user);
   return c.json({
     message: "Blogs fetched successfully",
+    user: c.get("user"),
   });
 });
 
