@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { z } from "zod";
 import { sign } from "hono/jwt";
+import { signInInput, signupInput } from "@suryadev78220/common";
 
 const userRouter = new Hono<{
   Bindings: {
@@ -37,17 +38,17 @@ type userInfovalidate = z.infer<typeof userInfo>;
 userRouter.post("/signup", async (c) => {
   const prisma = c.get("prisma");
 
-  const payload: userInfovalidate = await c.req.json();
-  if (!payload) {
+  const payload = await c.req.json();
+  if (!payload.success) {
     return c.json(
       {
-        message: "Payload is required",
+        message: "Invalid Inputs",
       },
       400
     );
   }
   try {
-    const { name, email, password } = userInfo.parse(payload);
+    const { name, email, password } = signupInput.parse(payload);
     const userExist = await prisma.user.findUnique({
       where: {
         email,
@@ -86,8 +87,16 @@ userRouter.post("/signup", async (c) => {
 
 userRouter.post("/login", async (c) => {
   const prisma = c.get("prisma");
-  const payload: userInfovalidate = await c.req.json();
-  const { email, password } = payload;
+  const payload = await c.req.json();
+  const { email, password } = await signInInput.parse(payload);
+  if (!email || !password) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
   try {
     const userExists = await prisma.user.findUnique({
       where: {

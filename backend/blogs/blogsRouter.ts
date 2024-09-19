@@ -1,7 +1,11 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { Hono } from "hono";
 import { JWTPayload } from "hono/utils/jwt/types";
-// import { authMiddleware } from "../middleware/auth";
+import {
+  blogCreationInput,
+  blogUpdateInput,
+  blogDeleteInput,
+} from "@suryadev78220/common";
 
 const blogsRouter = new Hono<{
   Bindings: {
@@ -21,15 +25,13 @@ blogsRouter.get("/bulk", async (c) => {
   return c.json({
     message: "Blogs fetched successfully",
     blogs,
-    user: c.get("user"),
+    user: user,
   });
 });
 
 blogsRouter.get("/search", async (c) => {
   const prisma = c.get("prisma");
   const query = c.req.query("q") || "";
-
-  console.log("Received query:", query);
 
   try {
     const blogs = await prisma.blog.findMany({
@@ -70,7 +72,16 @@ blogsRouter.put("/blog/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = c.get("prisma");
   const payload = await c.req.json();
-  const { title, content } = payload;
+  const isPayloadValid = blogUpdateInput.safeParse(payload);
+  if (!isPayloadValid.success) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
+  const { title, content } = isPayloadValid.data;
   try {
     const updatedBlog = await prisma.blog.update({
       where: {
@@ -96,7 +107,16 @@ blogsRouter.put("/blog/:id", async (c) => {
 blogsRouter.post("/blog", async (c) => {
   const prisma = c.get("prisma");
   const payload = await c.req.json();
-  const { title, content } = payload;
+  const isPayloadValid = blogCreationInput.safeParse(payload);
+  if (!isPayloadValid.success) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
+  const { title, content } = isPayloadValid.data;
   const user = c.get("user") as { id: number };
   try {
     const blog = await prisma.blog.create({
@@ -128,7 +148,16 @@ blogsRouter.put("/blog/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = await c.get("prisma");
   const payload = await c.req.json();
-  const { title, content } = payload;
+  const isPayloadValid = blogUpdateInput.safeParse(payload);
+  if (!isPayloadValid.success) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
+  const { title, content } = isPayloadValid.data;
   try {
     const updatedBlog = await prisma.blog.update({
       where: {
@@ -157,6 +186,15 @@ blogsRouter.put("/blog/:id", async (c) => {
 blogsRouter.delete("/blog/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = c.get("prisma");
+  const isIdValid = blogDeleteInput.safeParse(id);
+  if (!isIdValid.success) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
   try {
     const deletedBlog = await prisma.blog.delete({
       where: {
