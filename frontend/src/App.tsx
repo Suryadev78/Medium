@@ -1,5 +1,9 @@
 import { useState } from "react";
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Signup } from "./pages/signup";
+import { Login } from "./pages/login";
+import { Blogs } from "./pages/blogs";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -7,7 +11,15 @@ function App() {
   return (
     <>
       <div>
-        <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/signup" element={<Signup />}>
+              {" "}
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/blogs" element={<Blogs />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   );
