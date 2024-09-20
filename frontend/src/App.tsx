@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Signup } from "./pages/signup";
-import { Login } from "./pages/login";
 import { Blogs } from "./pages/blogs";
 import { CreateBlog } from "./pages/CreateBlog";
+import Login from "./pages/login";
 
 function App() {
   const [count, setCount] = useState(0);

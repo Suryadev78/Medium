@@ -1,14 +1,19 @@
-import { SignIn, SignUp } from "@clerk/clerk-react";
-export function Login() {
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+
+export default function Login() {
   return (
-    <>
-      <div className="auth-container">
-        <h1>Welcome to Medium</h1>
-        <div className="auth-options">
-          <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
-          <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />
-        </div>
-      </div>
-    </>
+    <header>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </header>
   );
 }
