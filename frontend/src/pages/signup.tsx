@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { SignupSidebar } from "../assets/components/signup-sidebar";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
+import { useForm } from "react-hook-form";
 export function Signup() {
+  const { register, handleSubmit } = useForm<SignUpInputs>();
   // ALl Types Will Be Here
   type SignUpInputs = {
     name: string;
@@ -11,24 +13,21 @@ export function Signup() {
     password: string;
   };
   // All Functions Will Be Here
-  async function postData() {
-    const response = await axios.post(
-      "backend.pandeysuryadev00.workers.dev/signup",
-      postInputs
-    );
+  async function signUpInfo(data: SignUpInputs) {
+    const response = await axios.post(`${BACKEND_URL}/signup`, data);
     console.log(response);
+    console.log(response.data);
+    if (response.status === 200) {
+      localStorage.setItem("token", response.data.token);
+      navigate("/login");
+    } else {
+      alert(response.data.message);
+    }
   }
   // All States Will Be Here
-  const [postInputs, setPostInputs] = useState<SignUpInputs>({
-    name: "",
-    email: "",
-    password: "",
-  });
+
   const navigate = useNavigate();
 
-  {
-    console.log(JSON.stringify(postInputs));
-  }
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="w-full lg:w-1/2">
@@ -43,14 +42,15 @@ export function Signup() {
               </p>
             </div>
             <div>
-              <form className="flex flex-col  pl-2">
+              <form
+                className="flex flex-col  pl-2"
+                onSubmit={handleSubmit((data) => signUpInfo(data))}
+              >
                 <label className="font-semibold mt-2" htmlFor="firstName">
                   Username
                 </label>
                 <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setPostInputs({ ...postInputs, name: e.target.value });
-                  }}
+                  {...register("name")}
                   required
                   className="w-5/6 p-1 mt-1 border rounded-sm"
                   type="text"
@@ -60,9 +60,7 @@ export function Signup() {
                   Email
                 </label>
                 <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setPostInputs({ ...postInputs, email: e.target.value });
-                  }}
+                  {...register("email")}
                   required
                   className="w-5/6 p-1 mt-1 rounded-sm border"
                   type="text"
@@ -73,9 +71,7 @@ export function Signup() {
                 </label>
 
                 <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setPostInputs({ ...postInputs, password: e.target.value });
-                  }}
+                  {...register("password")}
                   required
                   className="w-5/6 p-1 mt-1 rounded-sm border"
                   type="password"
@@ -83,7 +79,6 @@ export function Signup() {
                 />
                 <div className="flex justify-center items-center mt-4">
                   <button
-                    onClick={() => postData}
                     type="submit"
                     className="bg-gray-950 w-5/6 rounded-md text-white font-semibold p-1"
                   >
