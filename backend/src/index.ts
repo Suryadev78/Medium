@@ -6,6 +6,7 @@ import { userRouter } from "../users/userRouter";
 import { JWTPayload } from "hono/utils/jwt/types";
 import { z } from "zod";
 import { verify } from "hono/jwt";
+import { cors } from "hono/cors";
 type ExtendedPrismaClient = ReturnType<typeof extendPrismaClient>;
 
 function extendPrismaClient(prisma: PrismaClient) {
@@ -22,6 +23,8 @@ const app = new Hono<{
     user: JWTPayload;
   };
 }>();
+//implent cors
+app.use("/*", cors());
 
 app.use("*", async (c, next) => {
   const prisma = extendPrismaClient(

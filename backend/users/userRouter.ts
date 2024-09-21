@@ -38,17 +38,19 @@ type userInfovalidate = z.infer<typeof userInfo>;
 userRouter.post("/signup", async (c) => {
   const prisma = c.get("prisma");
 
-  const payload = await c.req.json();
+  const body = await c.req.json();
+  const payload = signupInput.safeParse(body);
   if (!payload.success) {
     return c.json(
       {
         message: "Invalid Inputs",
+        errors: payload.error.errors,
       },
       400
     );
   }
   try {
-    const { name, email, password } = signupInput.parse(payload);
+    const { name, email, password } = payload.data;
     const userExist = await prisma.user.findUnique({
       where: {
         email,
@@ -88,7 +90,16 @@ userRouter.post("/signup", async (c) => {
 userRouter.post("/login", async (c) => {
   const prisma = c.get("prisma");
   const payload = await c.req.json();
-  const { email, password } = await signInInput.parse(payload);
+  const payloadData = signInInput.safeParse(payload);
+  if (!payloadData.success) {
+    return c.json(
+      {
+        message: "Invalid Inputs",
+      },
+      400
+    );
+  }
+  const { email, password } = payloadData.data;
   if (!email || !password) {
     return c.json(
       {
