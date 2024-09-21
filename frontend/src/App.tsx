@@ -5,6 +5,7 @@ import { Signup } from "./pages/signup";
 import { Blogs } from "./pages/blogs";
 import { CreateBlog } from "./pages/CreateBlog";
 import Login from "./pages/login";
+import { HeroSection } from "./pages/HeroSection";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/create-blog" element={<CreateBlog />} />
+            <Route path="/" element={<HeroSection />} />
           </Routes>
         </BrowserRouter>
       </div>
