@@ -14,14 +14,23 @@ export function Signup() {
   };
   // All Functions Will Be Here
   async function signUpInfo(data: SignUpInputs) {
-    const response = await axios.post(`${BACKEND_URL}/signup`, data);
-    console.log(response);
-    console.log(response.data);
-    if (response.status === 200) {
-      localStorage.setItem("token", response.data.token);
-      navigate("/login");
-    } else {
-      alert(response.data.message);
+    try {
+      const response = await axios.post(`${BACKEND_URL}/signup`, data);
+      if (response) {
+        console.log(response);
+        navigate("/login");
+        localStorage.setItem("token", response.data.token);
+      } else {
+        alert("An error occurred while signing up");
+      }
+      if (response.status === 400) {
+        alert("Invalid Credentials");
+      }
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        alert("Invalid Credentials");
+      }
+      console.log(error);
     }
   }
   // All States Will Be Here
