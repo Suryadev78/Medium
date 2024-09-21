@@ -1,17 +1,34 @@
 import { Link } from "react-router-dom";
 import { SignupSidebar } from "../assets/components/signup-sidebar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export function Signup() {
+  // ALl Types Will Be Here
   type SignUpInputs = {
     name: string;
     email: string;
     password: string;
   };
+  // All Functions Will Be Here
+  async function postData() {
+    const response = await axios.post(
+      "backend.pandeysuryadev00.workers.dev/signup",
+      postInputs
+    );
+    console.log(response);
+  }
+  // All States Will Be Here
   const [postInputs, setPostInputs] = useState<SignUpInputs>({
     name: "",
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
+  {
+    console.log(JSON.stringify(postInputs));
+  }
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="w-full lg:w-1/2">
@@ -43,6 +60,9 @@ export function Signup() {
                   Email
                 </label>
                 <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPostInputs({ ...postInputs, email: e.target.value });
+                  }}
                   required
                   className="w-5/6 p-1 mt-1 rounded-sm border"
                   type="text"
@@ -53,6 +73,9 @@ export function Signup() {
                 </label>
 
                 <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPostInputs({ ...postInputs, password: e.target.value });
+                  }}
                   required
                   className="w-5/6 p-1 mt-1 rounded-sm border"
                   type="password"
@@ -60,6 +83,7 @@ export function Signup() {
                 />
                 <div className="flex justify-center items-center mt-4">
                   <button
+                    onClick={() => postData}
                     type="submit"
                     className="bg-gray-950 w-5/6 rounded-md text-white font-semibold p-1"
                   >
