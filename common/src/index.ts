@@ -27,8 +27,8 @@ export const blogDeleteInput = z.object({
   id: z.number(),
 });
 
-export type signupInputType = z.infer<typeof signupInput>;
-export type signInputType = z.infer<typeof signInInput>;
-export type blogCreationInputType = z.infer<typeof blogCreationInput>;
-export type blogUpdateInputType = z.infer<typeof blogUpdateInput>;
-export type blogDeleteInputType = z.infer<typeof blogDeleteInput>;
+export type SignUpInputType = z.infer<typeof signupInput>;
+export type SignInInputType = z.infer<typeof signInInput>;
+export type BlogCreationInputType = z.infer<typeof blogCreationInput>;
+export type BlogUpdateInputType = z.infer<typeof blogUpdateInput>;
+export type BlogDeleteInputType = z.infer<typeof blogDeleteInput>;
