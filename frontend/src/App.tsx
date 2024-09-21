@@ -8,8 +8,6 @@ import Login from "./pages/login";
 import { HeroSection } from "./pages/HeroSection";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <div>
