@@ -1,4 +1,5 @@
 import { TfiWrite } from "react-icons/tfi";
+import { BlogsComponent } from "../assets/components/Blogs";
 
 export function Blogs() {
   return (
@@ -21,14 +22,7 @@ export function Blogs() {
           </div>
         </div>
       </div>
-      <div className="flex items-center">
-        <div className="flex w-[70%] bg-slate-200 flex-col pt-4">
-          <div className="flex gap-2">
-            <button> + f0llowing</button>
-            <button> + f0llowing</button>
-          </div>
-        </div>
-      </div>
+      <BlogsComponent author={"Jokester"} />
     </div>
   );
 }
