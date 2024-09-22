@@ -5,6 +5,7 @@ import { Blogs } from "./pages/blogs";
 import { CreateBlog } from "./pages/CreateBlog";
 import Login from "./pages/login";
 import { HeroSection } from "./pages/HeroSection";
+import { BlogsComponent } from "./assets/components/Blogs";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
               {" "}
             </Route>
             <Route path="/login" element={<Login />} />
-            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs" element={<BlogsComponent />} />
             <Route path="/create-blog" element={<CreateBlog />} />
             <Route path="/" element={<HeroSection />} />
           </Routes>

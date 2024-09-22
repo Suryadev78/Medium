@@ -1,7 +1,7 @@
-interface BlogsComponentProps {
+interface ReadBlogsComponentProps {
   author: string;
 }
-export function BlogsComponent({ author }: BlogsComponentProps) {
+export function ReadBlogsComponent({ author }: ReadBlogsComponentProps) {
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4">
       <div className="flex-1">

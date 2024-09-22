@@ -1,5 +1,5 @@
 import { TfiWrite } from "react-icons/tfi";
-import { BlogsComponent } from "../assets/components/ReadBlogs";
+import { ReadBlogsComponent } from "../assets/components/ReadBlogs";
 
 export function Blogs() {
   return (
@@ -22,7 +22,7 @@ export function Blogs() {
           </div>
         </div>
       </div>
-      <BlogsComponent author="Jokester" />
+      <ReadBlogsComponent author="Jokester" />
     </div>
   );
 }
