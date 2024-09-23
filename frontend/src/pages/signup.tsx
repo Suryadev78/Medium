@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { SignupSidebar } from "../assets/components/signup-sidebar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL_USERS } from "../config";
 import { useForm } from "react-hook-form";
 export function Signup() {
   const { register, handleSubmit } = useForm<SignUpInputs>();
@@ -15,7 +15,7 @@ export function Signup() {
   // All Functions Will Be Here
   async function signUpInfo(data: SignUpInputs) {
     try {
-      const response = await axios.post(`${BACKEND_URL}/signup`, data);
+      const response = await axios.post(`${BACKEND_URL_USERS}/signup`, data);
       if (response) {
         console.log(response);
         navigate("/login");

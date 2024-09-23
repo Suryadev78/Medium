@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL_USERS } from "../config";
 import { useNavigate } from "react-router-dom";
 export default function Login() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Login() {
   };
   async function loginInfo(data: LoginInputs) {
     try {
-      const response = await axios.post(`${BACKEND_URL}/login`, data);
+      const response = await axios.post(`${BACKEND_URL_USERS}/login`, data);
       if (response) {
         console.log(response);
         localStorage.setItem("token", response.data.token);
