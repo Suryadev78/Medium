@@ -130,8 +130,7 @@ blogsRouter.post("/blog", async (c) => {
 blogsRouter.delete("/blog/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = c.get("prisma");
-  const isIdValid = blogDeleteInput.safeParse(id);
-  if (!isIdValid.success) {
+  if (!id) {
     return c.json(
       {
         message: "Invalid Inputs",
