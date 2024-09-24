@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL_BLOGS } from "../config";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +10,14 @@ interface Blog {
   content: string;
 }
 export function CreateBlog() {
-  const { name } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState<Blog["title"]>("");
   const [content, setContent] = useState<Blog["content"]>("");
 
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/login");
+  }
   const handlePublish = async () => {
     try {
       if (title === "" || content === "") {
@@ -51,13 +53,8 @@ export function CreateBlog() {
         <div className="flex justify-between pr-10 pl-10 pt-2 pb-2 items-center">
           <div className="flex gap-3 items-center">
             <h1 className="text-2xl font-bold ">Medium</h1>
-            <span className="text-gray-500">Draft in {name}</span>
           </div>
-          <div>
-            <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full ">
-              A
-            </div>
-          </div>
+          <div></div>
         </div>
       </nav>
 

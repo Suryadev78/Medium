@@ -3,14 +3,20 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BACKEND_URL_USERS } from "../config";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginInputs>();
+  const [loading, setLoading] = useState(false);
   type LoginInputs = {
     email: string;
     password: string;
   };
   async function loginInfo(data: LoginInputs) {
+    setLoading(true);
     try {
       const response = await axios.post(`${BACKEND_URL_USERS}/login`, data);
       if (response) {
@@ -29,19 +35,25 @@ export default function Login() {
           navigate("/login");
         }, 60 * 60 * 1000); // 1 hour in milliseconds
 
+        toast.success("Logged in successfully");
         navigate("/blogs");
       } else {
-        alert("An error occurred while logging in");
+        toast.error("An error occurred while logging in");
       }
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
-        alert("Invalid Credentials");
+        toast.error("Invalid Credentials");
+      } else {
+        toast.error("An error occurred");
       }
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
   return (
     <div className="flex justify-center items-center min-h-screen p-4">
+      <ToastContainer />
       <div className="w-full max-w-md bg-slate-50 shadow-lg rounded-md">
         <div className="text-center pt-4 font-semibold text-2xl">
           <h1>SignIn</h1>
@@ -67,8 +79,11 @@ export default function Login() {
               placeholder="password"
             />
             <div className="flex justify-center pt-6">
-              <button className="w-full p-2 bg-gray-950 text-white mt-1 border rounded-md">
-                Login
+              <button
+                className="w-full p-2 bg-gray-950 text-white mt-1 border rounded-md"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Login"}
               </button>
             </div>
           </form>

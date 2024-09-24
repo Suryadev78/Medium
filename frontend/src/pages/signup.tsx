@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL_USERS } from "../config";
 import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export function Signup() {
   const { register, handleSubmit } = useForm<SignUpInputs>();
   // ALl Types Will Be Here
@@ -18,17 +21,20 @@ export function Signup() {
       const response = await axios.post(`${BACKEND_URL_USERS}/signup`, data);
       if (response) {
         console.log(response);
-        navigate("/login");
+        navigate("/blogs");
         localStorage.setItem("token", response.data.token);
+        toast.success("Signup successful!");
       } else {
-        alert("An error occurred while signing up");
+        toast.error("An error occurred while signing up");
       }
       if (response.status === 400) {
-        alert("Invalid Credentials");
+        toast.error("Invalid Credentials");
       }
     } catch (error: any) {
       if (error.response.status === 400) {
-        alert("Invalid Credentials");
+        toast.error("Invalid Credentials");
+      } else {
+        toast.error("An unexpected error occurred");
       }
       console.log(error);
     }
@@ -39,6 +45,7 @@ export function Signup() {
 
   return (
     <div className="flex flex-col lg:flex-row">
+      <ToastContainer />
       <div className="w-full lg:w-1/2">
         <div className="h-screen bg-slate-100 flex justify-center items-center ">
           <div className="w-80  bg-white rounded-md  ">

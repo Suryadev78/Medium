@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BACKEND_URL_BLOGS } from "../../config";
+import { BACKEND_URL_BLOGS, BACKEND_URL_USERS } from "../../config";
 import { TfiWrite } from "react-icons/tfi";
 
 interface Blog {
@@ -13,11 +13,31 @@ interface Blog {
     name: string;
   };
 }
+interface User {
+  name: string;
+}
 
 export function ReadBlogsComponent() {
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL_USERS}/login`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+    fetchUserDetails();
+  }, []);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -67,7 +87,7 @@ export function ReadBlogsComponent() {
               </button>
             </div>
             <button className="bg-gray-800 text-sm w-9 h-9 rounded-full text-white font-semibold">
-              {blog.author.name[0].toUpperCase()}
+              {user?.name[0].toUpperCase()}
             </button>
           </div>
         </div>
