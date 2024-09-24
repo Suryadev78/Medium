@@ -4,7 +4,6 @@ import { BACKEND_URL_BLOGS } from "../config";
 import { useEffect, useState } from "react";
 import { BlogsComponent } from "../assets/components/Blogs";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 interface Blog {
   id: string;
@@ -15,9 +14,6 @@ interface Blog {
 }
 
 export function Blogs() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get("name");
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,12 +66,18 @@ export function Blogs() {
           <div className="flex items-center gap-4">
             <div className="flex gap-2 items-center">
               <TfiWrite className="text-gray-800" />
-              <button className="text-gray-800 hover:text-gray-600 transition duration-300">
+              <button
+                onClick={() => navigate("/write-blogs")}
+                className="text-gray-800 hover:text-gray-600 transition duration-300"
+              >
                 Write
               </button>
             </div>
-            <button className="bg-gray-800 text-sm w-9 h-9 rounded-full text-white font-semibold flex items-center justify-center">
-              {name ? name[0] : ""}
+            <button
+              onClick={() => navigate("/user-blogs")}
+              className="text-md  text-black font-semibold flex items-center justify-center"
+            >
+              Your Blogs
             </button>
           </div>
         </div>

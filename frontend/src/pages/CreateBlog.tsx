@@ -5,10 +5,12 @@ import { BACKEND_URL_BLOGS } from "../config";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 interface Blog {
   title: string;
   content: string;
 }
+
 export function CreateBlog() {
   const navigate = useNavigate();
   const [title, setTitle] = useState<Blog["title"]>("");
@@ -18,6 +20,7 @@ export function CreateBlog() {
   if (!token) {
     navigate("/login");
   }
+
   const handlePublish = async () => {
     try {
       if (title === "" || content === "") {
@@ -54,7 +57,6 @@ export function CreateBlog() {
           <div className="flex gap-3 items-center">
             <h1 className="text-2xl font-bold ">Medium</h1>
           </div>
-          <div></div>
         </div>
       </nav>
 
