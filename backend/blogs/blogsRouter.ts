@@ -68,38 +68,42 @@ blogsRouter.get("/search", async (c) => {
 // Example: GET /search?q=technology
 // This will search for blogs with "technology" in the title or content
 
-blogsRouter.put("/blog/:id", async (c) => {
+blogsRouter.get("/blog/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = c.get("prisma");
   const payload = await c.req.json();
-  const isPayloadValid = blogUpdateInput.safeParse(payload);
-  if (!isPayloadValid.success) {
+  const isPayload = payload;
+  if (!isPayload) {
     return c.json(
       {
-        message: "Invalid Inputs",
+        message: "Required id",
       },
       400
     );
   }
-  const { title, content } = isPayloadValid.data;
   try {
-    const updatedBlog = await prisma.blog.update({
+    const Blog = await prisma.blog.findFirst({
       where: {
         id: parseInt(id),
       },
-      data: {
-        title,
-        content,
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
       },
     });
     return c.json({
-      message: "Blog updated successfully",
-      blog: updatedBlog,
+      message: "Blog fetched successfully",
+      blog: Blog,
     });
   } catch (e) {
     console.log(e);
     return c.json({
-      message: "Failed to update blog",
+      message: "Failed to fetch blog",
     });
   }
 });
