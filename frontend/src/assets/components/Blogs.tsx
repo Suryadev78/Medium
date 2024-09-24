@@ -28,7 +28,7 @@ export function BlogsComponent({
 
   return (
     <div
-      onClick={() => navigate(`/read-blogs/id = ${id}`)}
+      onClick={() => navigate(`/read-blogs/${id}`)}
       className="flex justify-center"
     >
       <div className="max-w-2xl border-b-2 border-gray-200 py-2 w-full">

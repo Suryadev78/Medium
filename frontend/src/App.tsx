@@ -5,7 +5,7 @@ import { CreateBlog } from "./pages/CreateBlog";
 import Login from "./pages/login";
 import { HeroSection } from "./pages/HeroSection";
 import { Blogs } from "./pages/blogs";
-
+import { ReadBlogsComponent } from "./assets/components/ReadBlogs";
 function App() {
   return (
     <>
@@ -17,8 +17,9 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/blogs" element={<Blogs />} />
-            <Route path="/create-blog" element={<CreateBlog />} />
+            <Route path="/write-blogs/:name" element={<CreateBlog />} />
             <Route path="/" element={<HeroSection />} />
+            <Route path="/read-blogs/:id" element={<ReadBlogsComponent />} />
           </Routes>
         </BrowserRouter>
       </div>
