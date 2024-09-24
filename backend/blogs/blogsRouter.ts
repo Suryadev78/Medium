@@ -1,11 +1,7 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { Hono } from "hono";
 import { JWTPayload } from "hono/utils/jwt/types";
-import {
-  blogCreationInput,
-  blogUpdateInput,
-  blogDeleteInput,
-} from "@suryadev78220/common";
+import { blogCreationInput } from "@suryadev78220/common";
 
 const blogsRouter = new Hono<{
   Bindings: {
