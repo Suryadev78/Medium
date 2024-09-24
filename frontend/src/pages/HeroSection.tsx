@@ -14,7 +14,7 @@ export function HeroSection() {
             </div>
             <div className="flex  items-center">
               <img
-                src="/src/assets/img/1718366612733.jpg"
+                src="/Medium/frontend/public/1718366612733.jpg"
                 alt="Suryadev Pandey"
                 className="w-8 h-8 rounded-full mr-2"
               />
