@@ -38,7 +38,8 @@ export function BlogsComponent({
   };
 
   // Generate author initials for avatar
-  const getAuthorInitials = (name: string) => {
+  const getAuthorInitials = (name?: string) => {
+    if (!name) return "NA";
     return name
       .split(' ')
       .map(word => word.charAt(0))
@@ -46,6 +47,7 @@ export function BlogsComponent({
       .toUpperCase()
       .slice(0, 2);
   };
+  
 
   return (
     <div
